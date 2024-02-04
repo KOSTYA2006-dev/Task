@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="admin-header :: nav"></div>
+<h2>Задания</h2>
+
+<div class="card-deck">
+    <!-- Loop through each task -->status
+    <div th:each="task : ${tasks}" class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${task.name}"></h5>
+            <p class="card-text" th:text="${task.description}"></p>
+            <p class="card-text" style="background-color: green" th:text="${task.priority}"></p>
+            <div th:if="${task.mark <= 5}">
+                <p class="card-text" style="color: red">Баллы: <span th:text="${task.mark}"></span></p>
+            </div>
+            <div th:if="${task.mark <= 10 and task.mark > 5}">
+                <p class="card-text" style="color: green">Баллы: <span th:text="${task.mark}"></span></p>
+            </div>
+
+            <div th:if="${task.mark > 10}">
+                <p class="card-text" style="color: gold">Баллы: <span th:text="${task.mark}"></span></p>
+            </div>
+            <div th:if="${task.status == true}">
+                <h3 style="color: green">Активно</h3>
+            </div>
+            <form th:action="@{/task/up/{id}(id=${task.id})}" method="get">
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            </form>
+            <form th:action="@{/task/delete/{id}(id=${task.id})}" method="post">
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+            <div th:if="${task.getStatus() == false}">
+                <form th:action="@{/task/mark/{id}(id=${task.id})}" method="post">
+                    <button type="submit" class="btn btn-success">Успех</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
