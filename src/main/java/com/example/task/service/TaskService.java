@@ -79,7 +79,7 @@ public class TaskService {
         if (optionalTask.isPresent()) {
             User user = optionalUser.get();
             Task task = optionalTask.get();
-            user.setMark(task.getMark()); //TODO Заменить на награду из Task
+            user.setMark(task.getMark());
             task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Не найдено!"));
             taskRepository.delete(task);
 
